@@ -15,7 +15,7 @@ app.get("/imagenes", (req, res) => { // Crear una ruta
     const localizacion = geoip.lookup(ip);
     const insert = db.prepare("INSERT INTO usuarios (ip, userAgent, localizacion, fecha) VALUES (?, ?, ?, ?)"); // Preparar una consulta
     console.log(ip, userAgent, localizacion, fecha);
-    insert.run(ip, userAgent, localizacion, fecha); // Ejecutar una consulta
+    insert.run(ip, userAgent, localizacion.city, fecha); // Ejecutar una consulta
 
     const imagenes = [
         "1.jpg",
