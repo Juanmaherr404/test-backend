@@ -12,7 +12,8 @@
     "better-sqlite3": "^11.8.1",
     "express": "^4.21.2",
     "geoip-lite": "^1.4.10",
-    "insert": "^1.0.1"
+    "insert": "^1.0.1",
+    "morgan": "^1.10.0"
   },
   "description": ""
 }

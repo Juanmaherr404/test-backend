@@ -1,8 +1,11 @@
 const express = require('express'); // Importar express
 const db = require('./initdb'); // Importar la base de datos
+const morgan = require('morgan'); // Importar morgan
 const geoip = require('geoip-lite'); // Importar geoip-lite
 const PORT = 3000; // Definir el puerto
 const app = express(); // Crear una instancia de express
+
+app.use(morgan('combined')); // Usar morgan para registrar las solicitudes HTTP
 
 app.get('/', (req, res) => { // Crear una ruta
     res.send('Hola Mundo'); // Enviar una respuesta
@@ -14,8 +17,7 @@ app.get("/imagenes", (req, res) => { // Crear una ruta
     const fecha = new Date().toISOString();
     const localizacion = geoip.lookup(ip);
     const insert = db.prepare("INSERT INTO usuarios (ip, userAgent, localizacion, fecha) VALUES (?, ?, ?, ?)"); // Preparar una consulta
-    console.log(ip, userAgent, localizacion, fecha);
-    insert.run(ip, userAgent, localizacion.city, fecha); // Ejecutar una consulta
+    insert.run(ip, userAgent, localizacion, fecha); // Ejecutar una consulta
 
     const imagenes = [
         "1.jpg",
