@@ -28,6 +28,12 @@ app.get("/imagenes", (req, res) => { // Crear una ruta
     res.sendFile(__dirname + `/${imagen}`); // Enviar una respuesta
 });
 
+app.get("/usuarios", (req, res) => { // Crear una ruta
+    const stmt = "SELECT * FROM usuarios"; // Preparar una consulta
+    const usuarios = db.prepare(stmt).all(); // Ejecutar una consulta
+    res.json(usuarios); // Enviar una respuesta
+});
+
 app.listen(PORT, () => { // Crear una ruta
     console.log(`Servidor corriendo en el puerto ${PORT}`); // Imprimir un mensaje en la consola con el puerto
 })
