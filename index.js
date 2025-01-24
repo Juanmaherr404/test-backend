@@ -4,8 +4,13 @@ const morgan = require('morgan'); // Importar morgan
 const geoip = require('geoip-lite'); // Importar geoip-lite
 const PORT = 3000; // Definir el puerto
 const app = express(); // Crear una instancia de express
+const fs = require('fs'); // Importar fs
+const path = require('path'); // Importar path
 
-app.use(morgan('combined')); // Usar morgan para registrar las solicitudes HTTP
+const logStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' }); // Crear un archivo de registro
+app.use(express.static('public')); // Usar archivos estáticos
+app.use(express.json()); // Usar JSON
+app.use(morgan('combined', { stream: logStream }));
 
 app.get('/', (req, res) => { // Crear una ruta
     res.send('Hola Mundo'); // Enviar una respuesta
@@ -35,6 +40,12 @@ app.get("/usuarios", (req, res) => { // Crear una ruta
     const stmt = "SELECT * FROM usuarios"; // Preparar una consulta
     const usuarios = db.prepare(stmt).all(); // Ejecutar una consulta
     res.json(usuarios); // Enviar una respuesta
+});
+
+app.post("/collect", (req, res) => {
+    const data = req.body;
+    console.log(data);
+    res.send(data);
 });
 
 app.listen(PORT, () => { // Crear una ruta
